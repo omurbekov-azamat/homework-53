@@ -2,39 +2,60 @@ import React, {useState} from 'react';
 import TaskForm from "./TaskForm/TaskForm";
 import Task from "./Task/Task"
 
+interface TaskProps {
+  task: string,
+  id: number,
+  key: number,
+}
+let getTask: TaskProps;
+
 function App() {
   const [tasks, setTasks] = useState([
-    {task: 'buy milk', id: 'd123'},
-    {task: 'walk with dog', id: 'd442'},
-    {task: 'do homework', id: 'asd'},
+    {task: 'buy milk', id: Math.floor(Math.random() * 12345)},
+    {task: 'walk with dog', id: Math.floor(Math.random() * 12345)},
+    {task: 'do homework', id: Math.floor(Math.random() * 12345)},
   ]);
 
+  const newTask = (event: React.ChangeEvent<HTMLInputElement>) => {
 
-  const [showTasks, setShowTasks] = useState(false)
-
-  const toggleTasks = () => {
-      setShowTasks(!showTasks);
+    getTask = {
+      task: event.target.value,
+      id: Math.floor(Math.random() * 12345),
+      key: Math.floor(Math.random() * 54321),
+    };
   };
 
-  let tasksList: React.ReactNode = null;
+  const sendTask = () => {
+    const tasksCopy = [...tasks];
+    tasksCopy.push(getTask);
+    setTasks(tasksCopy);
+  };
 
-  if (showTasks) {
-    tasksList = (
-      <div>
-        <Task task={tasks[0].task}/>
-        <Task task={tasks[1].task}/>
-        <Task task={tasks[2].task}/>
-      </div>
-    );
+
+
+  const deleteTask = (id:number) => {
+    const taskCopy = [...tasks];
+    taskCopy.splice(id,1);
+    setTasks(taskCopy);
+    console.log(tasks)
   }
+
+  const showTasks = () =>{
+    const tasksItems = tasks.map((task) =>
+      <Task
+        task={task.task}
+        key={task.id}
+        delete={() => deleteTask(task.id)}/>
+    )
+    return (
+      <>{tasksItems}</>
+    )
+  };
 
   return (
     <>
-      <TaskForm onHeaderClick={(e) => {
-        e.preventDefault();
-        toggleTasks()
-      }}/>
-      {tasksList}
+      <TaskForm onGetNewTask={newTask} onHeaderClick={(event) => {event.preventDefault(); sendTask();}}/>
+      {showTasks()}
     </>
   );
 }
