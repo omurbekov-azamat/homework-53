@@ -18,26 +18,31 @@ function App() {
 
 
   const newTask = (event: React.ChangeEvent<HTMLInputElement>) => {
+
     getTask = {
       task: event.target.value,
       id: Math.random().toString(36),
-    };
+    }
   };
 
   const sendTask = () => {
     const tasksCopy = [...tasks];
-    tasksCopy.push(getTask);
+    if(getTask !== undefined) {
+      tasksCopy.push(getTask);
+    } else {
+      alert('try again')
+    }
     setTasks(tasksCopy);
   };
 
-  const deleteTask = (id:string) => {
+  const deleteTask = (id: string) => {
     const index = tasks.findIndex(p => p.id === id);
     const taskCopy = [...tasks];
     taskCopy.splice(index, 1);
     setTasks(taskCopy);
   };
 
-  const showTasks = () =>{
+  const showTasks = () => {
     const tasksItems = tasks.map((task) =>
       <Task
         task={task.task}
