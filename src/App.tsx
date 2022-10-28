@@ -5,8 +5,8 @@ import Task from "./Task/Task"
 interface TaskProps {
   task: string,
   id: number,
-  key: number,
 }
+
 let getTask: TaskProps;
 
 function App() {
@@ -17,11 +17,9 @@ function App() {
   ]);
 
   const newTask = (event: React.ChangeEvent<HTMLInputElement>) => {
-
     getTask = {
       task: event.target.value,
       id: Math.floor(Math.random() * 12345),
-      key: Math.floor(Math.random() * 54321),
     };
   };
 
@@ -31,19 +29,18 @@ function App() {
     setTasks(tasksCopy);
   };
 
-
-
   const deleteTask = (id:number) => {
+    const index = tasks.findIndex(p => p.id === id);
     const taskCopy = [...tasks];
-    taskCopy.splice(id,1);
+    taskCopy.splice(index, 1);
     setTasks(taskCopy);
-    console.log(tasks)
-  }
+  };
 
   const showTasks = () =>{
     const tasksItems = tasks.map((task) =>
       <Task
         task={task.task}
+        id={task.id}
         key={task.id}
         delete={() => deleteTask(task.id)}/>
     )
