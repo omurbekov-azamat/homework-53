@@ -2,8 +2,8 @@ import React from "react";
 
 interface TaskProps {
   task: string,
-  id: number,
-  delete: React.MouseEventHandler,
+  id: string,
+  delete?: React.MouseEventHandler,
 }
 
 
