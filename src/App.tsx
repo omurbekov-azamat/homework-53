@@ -17,7 +17,6 @@ function App() {
     {task: 'do homework', id: Math.random().toString(36), checkbox: false},
   ]);
 
-
   const newTask = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     getTask = {
@@ -44,7 +43,6 @@ function App() {
     setTasks(taskCopy);
   };
 
-
   const completedTask = (event: React.ChangeEvent<HTMLInputElement>, id:string) => {
     const index = tasks.findIndex(p => p.id === id);
     const taskCopy = {...tasks[index]};
@@ -54,9 +52,7 @@ function App() {
     } else if (taskCopy.checkbox === true){
       taskCopy.checkbox = false;
     }
-
     tasks[index] = taskCopy;
-   console.log(tasks)
   }
 
   const showTasks = () => {
@@ -73,7 +69,6 @@ function App() {
       <>{tasksItems}</>
     )
   };
-
 
   return (
     <>
